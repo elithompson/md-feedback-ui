@@ -6,14 +6,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elithompson/plan-reviewer.git"
+    "url": "git+https://github.com/elithompson/md-feedback-ui.git"
   },
   "publishConfig": {
     "provenance": true
   },
-  "homepage": "https://github.com/elithompson/plan-reviewer",
+  "homepage": "https://github.com/elithompson/md-feedback-ui",
   "bugs": {
-    "url": "https://github.com/elithompson/plan-reviewer/issues"
+    "url": "https://github.com/elithompson/md-feedback-ui/issues"
   },
   "keywords": [
     "markdown",
