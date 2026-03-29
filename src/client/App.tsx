@@ -1,6 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useReviewFiles } from "./hooks/useReviewFiles";
-import { useBlockSelection } from "./hooks/useBlockSelection";
 import { useComments } from "./hooks/useComments";
 import { FileTabBar } from "./components/FileTabBar";
 import { MarkdownRenderer } from "./components/MarkdownRenderer";
@@ -11,7 +10,6 @@ import "./styles/app.css";
 export function App() {
   const { files, loading, error } = useReviewFiles();
   const [activeIndex, setActiveIndex] = useState(0);
-  const { clearSelection } = useBlockSelection();
   const {
     comments,
     activeForm,
@@ -29,11 +27,14 @@ export function App() {
 
   const activeFile = files[activeIndex] ?? null;
 
-  const commentCounts = new Map<string, number>();
-  for (const file of files) {
-    const count = getCommentsForFile(file.path).length;
-    commentCounts.set(file.path, count);
-  }
+  const totalComments = getCommentCount();
+  const commentCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const file of files) {
+      counts.set(file.path, getCommentsForFile(file.path).length);
+    }
+    return counts;
+  }, [files, getCommentsForFile]);
 
   const handleAddComment = useCallback(
     (block: {
@@ -57,15 +58,13 @@ export function App() {
   const handleCommentSubmit = useCallback(
     (text: string, screenshots?: File[]) => {
       addComment(text, screenshots);
-      clearSelection();
     },
-    [addComment, clearSelection],
+    [addComment],
   );
 
   const handleCommentCancel = useCallback(() => {
     cancelComment();
-    clearSelection();
-  }, [cancelComment, clearSelection]);
+  }, [cancelComment]);
 
   const handleEditComment = useCallback(
     (id: string) => {
@@ -186,7 +185,7 @@ export function App() {
       <header className="app-header">
         <h1 className="app-title">Plan Review</h1>
         <span className="comment-count">
-          {getCommentCount()} comment{getCommentCount() !== 1 ? "s" : ""}
+          {totalComments} comment{totalComments !== 1 ? "s" : ""}
         </span>
       </header>
 

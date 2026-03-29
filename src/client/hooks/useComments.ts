@@ -9,7 +9,6 @@ export function useComments(): {
   showCommentForm: (form: Omit<ActiveCommentForm, "editingId">) => void;
   cancelComment: () => void;
   addComment: (text: string, screenshots?: File[]) => void;
-  editComment: (id: string, newText: string) => void;
   deleteComment: (filePath: string, id: string) => void;
   startEditing: (filePath: string, id: string) => void;
 } {
@@ -53,7 +52,9 @@ export function useComments(): {
           next.set(
             activeForm.filePath,
             fileComments.map((c) =>
-              c.id === activeForm.editingId ? { ...c, comment: text } : c,
+              c.id === activeForm.editingId
+                ? { ...c, comment: text, screenshots: screenshots ?? c.screenshots }
+                : c,
             ),
           );
           return next;
@@ -82,25 +83,6 @@ export function useComments(): {
     },
     [activeForm],
   );
-
-  const editComment = useCallback((id: string, newText: string) => {
-    setComments((prev) => {
-      const next = new Map(prev);
-      for (const [filePath, fileComments] of next) {
-        const idx = fileComments.findIndex((c) => c.id === id);
-        if (idx !== -1) {
-          next.set(
-            filePath,
-            fileComments.map((c) =>
-              c.id === id ? { ...c, comment: newText } : c,
-            ),
-          );
-          break;
-        }
-      }
-      return next;
-    });
-  }, []);
 
   const deleteComment = useCallback((filePath: string, id: string) => {
     setComments((prev) => {
@@ -131,6 +113,8 @@ export function useComments(): {
         blockType: comment.blockType,
         selectedText: comment.selectedText,
         editingId: comment.id,
+        editingText: comment.comment,
+        editingScreenshots: comment.screenshots,
       });
     },
     [comments],
@@ -144,7 +128,6 @@ export function useComments(): {
     showCommentForm,
     cancelComment,
     addComment,
-    editComment,
     deleteComment,
     startEditing,
   };

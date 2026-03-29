@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect, type ClipboardEvent, type DragEvent, type KeyboardEvent } from "react";
+import { formatLineLabel } from "../format-line-label";
 
 interface CommentFormProps {
   startLine: number;
   endLine: number;
-  blockType: string;
   onSubmit: (text: string, screenshots: File[]) => void;
   onCancel: () => void;
   initialText?: string;
+  initialScreenshots?: File[];
 }
 
 interface ScreenshotPreview {
@@ -20,9 +21,15 @@ export function CommentForm({
   onSubmit,
   onCancel,
   initialText = "",
+  initialScreenshots,
 }: CommentFormProps) {
   const [text, setText] = useState(initialText);
-  const [screenshots, setScreenshots] = useState<ScreenshotPreview[]>([]);
+  const [screenshots, setScreenshots] = useState<ScreenshotPreview[]>(() =>
+    (initialScreenshots ?? []).map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    })),
+  );
   const [dragging, setDragging] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -30,10 +37,7 @@ export function CommentForm({
     textareaRef.current?.focus();
   }, []);
 
-  const lineLabel =
-    startLine === endLine
-      ? `Line ${startLine}`
-      : `Lines ${startLine}-${endLine}`;
+  const lineLabel = formatLineLabel(startLine, endLine);
 
   function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
@@ -137,13 +141,13 @@ export function CommentForm({
         </div>
       )}
       <div className="comment-form__actions">
+        <button onClick={onCancel}>Cancel</button>
         <button
           onClick={handleSubmit}
           disabled={!text.trim()}
         >
           Add comment
         </button>
-        <button onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );

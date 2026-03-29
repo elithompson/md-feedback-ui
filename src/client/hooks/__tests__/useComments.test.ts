@@ -128,29 +128,6 @@ describe("useComments", () => {
     expect(after[0].comment).toBe("Second");
   });
 
-  it("editComment updates text, preserves other fields", () => {
-    const { result } = renderHook(() => useComments());
-
-    act(() => {
-      result.current.showCommentForm(formA);
-    });
-    act(() => {
-      result.current.addComment("Original text");
-    });
-
-    const id = result.current.getCommentsForFile("fileA.md")[0].id;
-
-    act(() => {
-      result.current.editComment(id, "Updated text");
-    });
-
-    const comment = result.current.getCommentsForFile("fileA.md")[0];
-    expect(comment.comment).toBe("Updated text");
-    expect(comment.id).toBe(id);
-    expect(comment.filePath).toBe("fileA.md");
-    expect(comment.startLine).toBe(1);
-  });
-
   it("comments keyed by filePath - adding to file A does not affect file B", () => {
     const { result } = renderHook(() => useComments());
 
@@ -253,6 +230,8 @@ describe("useComments", () => {
       blockType: "paragraph",
       selectedText: "some text",
       editingId: comment.id,
+      editingText: "To edit",
+      editingScreenshots: [],
     });
   });
 
@@ -280,5 +259,59 @@ describe("useComments", () => {
     expect(comments[0].comment).toBe("Edited via form");
     expect(comments[0].id).toBe(comment.id);
     expect(result.current.activeForm).toBeNull();
+  });
+
+  it("addComment in edit mode updates screenshots as well as text", () => {
+    const { result } = renderHook(() => useComments());
+
+    const origScreenshot = new File(["a"], "orig.png", { type: "image/png" });
+
+    act(() => {
+      result.current.showCommentForm(formA);
+    });
+    act(() => {
+      result.current.addComment("With screenshot", [origScreenshot]);
+    });
+
+    const comment = result.current.getCommentsForFile("fileA.md")[0];
+    expect(comment.screenshots).toHaveLength(1);
+
+    // Edit and add a new screenshot
+    const newScreenshot = new File(["b"], "new.png", { type: "image/png" });
+    act(() => {
+      result.current.startEditing("fileA.md", comment.id);
+    });
+    act(() => {
+      result.current.addComment("Updated text", [newScreenshot]);
+    });
+
+    const updated = result.current.getCommentsForFile("fileA.md")[0];
+    expect(updated.comment).toBe("Updated text");
+    expect(updated.screenshots).toHaveLength(1);
+    expect(updated.screenshots[0].name).toBe("new.png");
+  });
+
+  it("startEditing captures existing screenshots in activeForm", () => {
+    const { result } = renderHook(() => useComments());
+
+    const screenshot = new File(["a"], "test.png", { type: "image/png" });
+
+    act(() => {
+      result.current.showCommentForm(formA);
+    });
+    act(() => {
+      result.current.addComment("With screenshot", [screenshot]);
+    });
+
+    const comment = result.current.getCommentsForFile("fileA.md")[0];
+
+    act(() => {
+      result.current.startEditing("fileA.md", comment.id);
+    });
+
+    expect(result.current.activeForm?.editingScreenshots).toHaveLength(1);
+    expect(result.current.activeForm?.editingScreenshots?.[0].name).toBe(
+      "test.png",
+    );
   });
 });

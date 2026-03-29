@@ -107,7 +107,7 @@ describe("ReviewSidebar", () => {
     expect(onScrollToComment).toHaveBeenCalledWith("scroll-target");
   });
 
-  it("Submit Review button is disabled when 0 total comments", () => {
+  it("Submit Review button is enabled even with 0 comments", () => {
     const files = [makeFile()];
     const comments = new Map<string, Comment[]>();
 
@@ -123,7 +123,7 @@ describe("ReviewSidebar", () => {
     );
 
     const button = screen.getByText("Submit Review");
-    expect(button).toBeDisabled();
+    expect(button).toBeEnabled();
   });
 
   it("Submit Review button is enabled when comments exist", () => {

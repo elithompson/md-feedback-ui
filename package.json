@@ -3,11 +3,32 @@
   "version": "0.1.0",
   "description": "Browser-based multi-file markdown review UI with inline commenting and screenshot support",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elithompson/plan-reviewer.git"
+  },
+  "homepage": "https://github.com/elithompson/plan-reviewer",
+  "bugs": {
+    "url": "https://github.com/elithompson/plan-reviewer/issues"
+  },
+  "keywords": [
+    "markdown",
+    "review",
+    "claude-code",
+    "cli",
+    "mermaid",
+    "inline-comments"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "bin": {
     "plan-reviewer": "./dist/server/index.js"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "skill/plan-review.md"
   ],
   "scripts": {
     "dev": "vite",

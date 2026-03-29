@@ -1,4 +1,6 @@
+import { useMemo, useEffect } from "react";
 import type { Comment } from "../types";
+import { formatLineLabel } from "../format-line-label";
 
 interface CommentThreadProps {
   comment: Comment;
@@ -7,22 +9,30 @@ interface CommentThreadProps {
 }
 
 export function CommentThread({ comment, onEdit, onDelete }: CommentThreadProps) {
-  const lineLabel =
-    comment.startLine === comment.endLine
-      ? `Line ${comment.startLine}`
-      : `Lines ${comment.startLine}-${comment.endLine}`;
+  const lineLabel = formatLineLabel(comment.startLine, comment.endLine);
+
+  const screenshotUrls = useMemo(
+    () => comment.screenshots.map((s) => URL.createObjectURL(s)),
+    [comment.screenshots],
+  );
+
+  useEffect(() => {
+    return () => {
+      screenshotUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [screenshotUrls]);
 
   return (
     <div className="comment-thread" data-comment-id={comment.id}>
       <div className="comment-thread__badge">{lineLabel}</div>
       <div className="comment-thread__quote">{comment.selectedText}</div>
       <div className="comment-thread__text">{comment.comment}</div>
-      {comment.screenshots.length > 0 && (
+      {screenshotUrls.length > 0 && (
         <div className="comment-thread__thumbnails">
-          {comment.screenshots.map((screenshot, index) => (
+          {screenshotUrls.map((url, index) => (
             <img
-              key={index}
-              src={URL.createObjectURL(screenshot)}
+              key={url}
+              src={url}
               alt={`Screenshot ${index + 1}`}
             />
           ))}

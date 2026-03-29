@@ -1,8 +1,13 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CommentThread } from "../CommentThread";
 import type { Comment } from "../../types";
+
+beforeEach(() => {
+  URL.createObjectURL = vi.fn((f: File) => `blob:${f.name}`);
+  URL.revokeObjectURL = vi.fn();
+});
 
 function makeComment(overrides: Partial<Comment> = {}): Comment {
   return {
@@ -112,5 +117,27 @@ describe("CommentThread", () => {
     );
 
     expect(screen.getByText("Line 5")).toBeInTheDocument();
+  });
+
+  it("revokes ObjectURLs on unmount when screenshots are present", () => {
+    const screenshots = [
+      new File(["a"], "a.png", { type: "image/png" }),
+      new File(["b"], "b.png", { type: "image/png" }),
+    ];
+
+    const { unmount } = render(
+      <CommentThread
+        comment={makeComment({ screenshots })}
+        onEdit={vi.fn()}
+        onDelete={vi.fn()}
+      />,
+    );
+
+    expect(URL.createObjectURL).toHaveBeenCalledTimes(2);
+
+    unmount();
+
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:a.png");
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:b.png");
   });
 });

@@ -1,4 +1,5 @@
 import type { ReviewFile, Comment } from "../types";
+import { formatLineLabel } from "../format-line-label";
 
 interface ReviewSidebarProps {
   files: ReviewFile[];
@@ -66,10 +67,7 @@ export function ReviewSidebar({
               {file.relativePath}
             </div>
             {fileComments.map((comment) => {
-              const lineLabel =
-                comment.startLine === comment.endLine
-                  ? `Line ${comment.startLine}`
-                  : `Lines ${comment.startLine}-${comment.endLine}`;
+              const lineLabel = formatLineLabel(comment.startLine, comment.endLine);
 
               return (
                 <div
@@ -96,7 +94,6 @@ export function ReviewSidebar({
       <div className="review-sidebar__footer">
         <button
           className="review-sidebar__submit-btn"
-          disabled={totalComments === 0}
           onClick={onSubmit}
         >
           Submit Review

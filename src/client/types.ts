@@ -29,6 +29,8 @@ export interface ActiveCommentForm {
   blockType: string;
   selectedText: string;
   editingId?: string;
+  editingText?: string;
+  editingScreenshots?: File[];
 }
 
 export interface ReviewSubmission {

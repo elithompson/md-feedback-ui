@@ -11,7 +11,6 @@ beforeEach(() => {
 const defaultProps = {
   startLine: 5,
   endLine: 8,
-  blockType: "paragraph",
   onSubmit: vi.fn(),
   onCancel: vi.fn(),
 };

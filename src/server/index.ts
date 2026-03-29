@@ -7,14 +7,35 @@ import cors from "cors";
 import open from "open";
 import { resolveFiles } from "./resolve-files.js";
 import { registerRoutes } from "./routes.js";
+import {
+  parseArgs,
+  getPackageVersion,
+  installSkill,
+  printHelp,
+} from "./cli.js";
 
-const args = process.argv.slice(2);
+const { flags, fileArgs } = parseArgs(process.argv.slice(2));
 
-const files = resolveFiles(args);
+if (flags.has("--help")) {
+  printHelp();
+  process.exit(0);
+}
+
+if (flags.has("--version")) {
+  console.log(getPackageVersion());
+  process.exit(0);
+}
+
+if (flags.has("--install-skill")) {
+  installSkill(process.cwd(), flags.has("--global"));
+  process.exit(0);
+}
+
+const files = resolveFiles(fileArgs);
 
 // Determine outputDir: if input was a directory, use it; otherwise use the
 // directory of the first file.
-const firstArg = path.resolve(args[0]);
+const firstArg = path.resolve(fileArgs[0]);
 const outputDir = fs.statSync(firstArg).isDirectory()
   ? firstArg
   : path.dirname(files[0].path);
@@ -35,7 +56,7 @@ const server = app.listen(3456);
 server.on("listening", () => {
   const url = "http://localhost:3456";
   console.log(`Plan reviewer running at ${url}`);
-  if (!args.includes("--no-open")) {
+  if (!flags.has("--no-open")) {
     open(url);
   }
 });
