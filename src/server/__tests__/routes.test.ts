@@ -122,4 +122,64 @@ describe("POST /api/submit", () => {
     cleanup();
     fs.rmSync(outDir, { recursive: true, force: true });
   });
+
+  it("populates comment screenshots with server-side file paths", async () => {
+    const outDir = fs.mkdtempSync(path.join(os.tmpdir(), "submit-screenshots-"));
+    const files: ResolvedFile[] = [];
+    const { app, cleanup } = createApp(files, outDir);
+
+    const reviewPayload = {
+      reviewedFiles: ["/tmp/spec.md"],
+      submittedAt: "2026-03-29T12:00:00.000Z",
+      comments: [
+        {
+          file: "spec.md",
+          startLine: 1,
+          endLine: 1,
+          blockType: "heading",
+          selectedText: "Title",
+          comment: "Needs work",
+          screenshots: [],
+        },
+        {
+          file: "spec.md",
+          startLine: 5,
+          endLine: 8,
+          blockType: "paragraph",
+          selectedText: "Some text",
+          comment: "Add detail",
+          screenshots: [],
+        },
+      ],
+    };
+
+    const imgA = Buffer.from("fake-png-a");
+    const imgB = Buffer.from("fake-png-b");
+
+    const res = await request(app)
+      .post("/api/submit")
+      .field("review", JSON.stringify(reviewPayload))
+      .attach("screenshot_0", imgA, "shot-a.png")
+      .attach("screenshot_1", imgB, "shot-b.png")
+      .expect(200);
+
+    expect(res.body.success).toBe(true);
+
+    const written = JSON.parse(
+      fs.readFileSync(path.join(outDir, ".review.json"), "utf-8"),
+    );
+
+    // Comment 0 should have one screenshot path
+    expect(written.comments[0].screenshots).toHaveLength(1);
+    expect(written.comments[0].screenshots[0]).toMatch(/\.review-images\//);
+    expect(fs.existsSync(written.comments[0].screenshots[0])).toBe(true);
+
+    // Comment 1 should have one screenshot path
+    expect(written.comments[1].screenshots).toHaveLength(1);
+    expect(written.comments[1].screenshots[0]).toMatch(/\.review-images\//);
+    expect(fs.existsSync(written.comments[1].screenshots[0])).toBe(true);
+
+    cleanup();
+    fs.rmSync(outDir, { recursive: true, force: true });
+  });
 });

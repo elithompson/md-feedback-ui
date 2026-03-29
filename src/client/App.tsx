@@ -141,13 +141,15 @@ export function App() {
     const formData = new FormData();
     formData.append("review", JSON.stringify(submission));
 
-    // Attach screenshot files
+    // Attach screenshot files tagged by comment index
+    let commentIndex = 0;
     for (const file of files) {
       const fileComments = getCommentsForFile(file.path);
       for (const c of fileComments) {
         for (const screenshot of c.screenshots) {
-          formData.append("screenshots", screenshot);
+          formData.append(`screenshot_${commentIndex}`, screenshot);
         }
+        commentIndex++;
       }
     }
 
