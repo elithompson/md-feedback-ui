@@ -65,7 +65,7 @@ server.on("error", (err: NodeJS.ErrnoException) => {
   if (err.code === "EADDRINUSE") {
     console.error(
       "Error: port 3456 is already in use.\n" +
-        "A previous plan-reviewer may still be running. Kill it with:\n" +
+        "A previous md-feedback-ui may still be running. Kill it with:\n" +
         "  kill $(lsof -ti :3456)",
     );
     process.exit(1);

@@ -1,4 +1,4 @@
-# plan-reviewer
+# md-feedback-ui
 
 Browser-based markdown review UI with inline commenting and screenshot support. Designed for reviewing plans, specs, and documentation — especially with [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
@@ -14,7 +14,7 @@ Browser-based markdown review UI with inline commenting and screenshot support. 
 ## Quick Start
 
 ```bash
-npx plan-reviewer ./docs/plan.md
+npx md-feedback-ui ./docs/plan.md
 ```
 
 This opens a browser-based review UI. Add comments inline, attach screenshots, and click Submit. The tool writes a `.review.json` file next to the input and exits.
@@ -25,10 +25,10 @@ Install the skill so Claude Code can launch reviews:
 
 ```bash
 # Add to current project
-npx plan-reviewer --install-skill
+npx md-feedback-ui --install-skill
 
 # Or add globally (all projects)
-npx plan-reviewer --install-skill --global
+npx md-feedback-ui --install-skill --global
 ```
 
 Then in Claude Code, use the skill:
@@ -46,8 +46,8 @@ Then in Claude Code, use the skill:
 ## CLI Reference
 
 ```
-plan-reviewer <file-or-directory...> [options]
-plan-reviewer --install-skill [--global]
+md-feedback-ui <file-or-directory...> [options]
+md-feedback-ui --install-skill [--global]
 ```
 
 | Option | Description |
@@ -61,9 +61,9 @@ plan-reviewer --install-skill [--global]
 ### Examples
 
 ```bash
-plan-reviewer plan.md                    # Single file
-plan-reviewer docs/                      # All .md files in directory
-plan-reviewer spec.md plan.md tasks.md   # Multiple files
+md-feedback-ui plan.md                    # Single file
+md-feedback-ui docs/                      # All .md files in directory
+md-feedback-ui spec.md plan.md tasks.md   # Multiple files
 ```
 
 ## Output Format
@@ -91,8 +91,8 @@ The `.review.json` file contains structured feedback:
 ## Development
 
 ```bash
-git clone https://github.com/elithompson/plan-reviewer.git
-cd plan-reviewer
+git clone https://github.com/elithompson/md-feedback-ui.git
+cd md-feedback-ui
 npm install
 
 # Start dev servers (Vite frontend + Express API)

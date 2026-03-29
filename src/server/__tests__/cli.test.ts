@@ -78,7 +78,7 @@ describe("installSkill", () => {
     expect(fs.existsSync(targetPath)).toBe(true);
 
     const content = fs.readFileSync(targetPath, "utf-8");
-    expect(content).toContain("npx plan-reviewer");
+    expect(content).toContain("npx md-feedback-ui");
   });
 
   it("skips if the skill file already exists", () => {

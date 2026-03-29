@@ -57,13 +57,13 @@ export function installSkill(cwd: string, global: boolean): void {
 }
 
 export function printHelp(): void {
-  console.log(`plan-reviewer v${getPackageVersion()}
+  console.log(`md-feedback-ui v${getPackageVersion()}
 
 Browser-based markdown review UI with inline commenting and screenshot support.
 
 Usage:
-  plan-reviewer <file-or-directory...> [options]
-  plan-reviewer --install-skill [--global]
+  md-feedback-ui <file-or-directory...> [options]
+  md-feedback-ui --install-skill [--global]
 
 Options:
   --no-open          Don't auto-open the browser
@@ -73,9 +73,9 @@ Options:
   --help             Show this help message
 
 Examples:
-  plan-reviewer plan.md
-  plan-reviewer docs/
-  plan-reviewer spec.md plan.md tasks.md
-  plan-reviewer --install-skill
-  plan-reviewer --install-skill --global`);
+  md-feedback-ui plan.md
+  md-feedback-ui docs/
+  md-feedback-ui spec.md plan.md tasks.md
+  md-feedback-ui --install-skill
+  md-feedback-ui --install-skill --global`);
 }

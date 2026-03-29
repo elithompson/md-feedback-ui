@@ -9,7 +9,7 @@ Pass either file paths or a directory as arguments: $ARGUMENTS
 1. Run the review server. This command blocks until the user submits their review in the browser:
 
 ```bash
-npx plan-reviewer $ARGUMENTS
+npx md-feedback-ui $ARGUMENTS
 ```
 
 2. After the command exits, read the `.review.json` file that was written next to the input files. It contains structured feedback with file paths, source line references, selected text, comments, and optional screenshot image paths.
