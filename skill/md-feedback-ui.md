@@ -2,7 +2,7 @@
 description: Open markdown files in a browser-based review UI for inline commenting with screenshot support. Use for reviewing plans, specs, or any .md files. Accepts a file path, multiple file paths, or a directory.
 ---
 
-Launch the plan review server for the user to review markdown files in the browser. The review UI renders markdown with Mermaid diagrams, supports inline block-level commenting with screenshot attachments, and multi-file tabs.
+Launch the md-feedback-ui server for the user to review markdown files in the browser. The review UI renders markdown with Mermaid diagrams, supports inline block-level commenting with screenshot attachments, and multi-file tabs.
 
 Pass either file paths or a directory as arguments: $ARGUMENTS
 

@@ -55,7 +55,7 @@ const server = app.listen(3456);
 
 server.on("listening", () => {
   const url = "http://localhost:3456";
-  console.log(`Plan reviewer running at ${url}`);
+  console.log(`md-feedback-ui running at ${url}`);
   if (!flags.has("--no-open")) {
     open(url);
   }

@@ -185,7 +185,7 @@ export function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">Plan Review</h1>
+        <h1 className="app-title">Markdown Feedback</h1>
         <span className="comment-count">
           {totalComments} comment{totalComments !== 1 ? "s" : ""}
         </span>
