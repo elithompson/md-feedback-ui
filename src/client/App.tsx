@@ -113,30 +113,6 @@ export function App() {
       comments: allComments,
     };
 
-    // Build clipboard text
-    const clipboardLines = ["# Review", ""];
-    for (const c of allComments) {
-      const lineLabel =
-        c.startLine === c.endLine
-          ? `Line ${c.startLine}`
-          : `Lines ${c.startLine}-${c.endLine}`;
-      clipboardLines.push(`## ${c.file} — ${lineLabel} (${c.blockType})`);
-      clipboardLines.push(
-        ...c.selectedText.split("\n").map((line) => `> ${line}`),
-      );
-      clipboardLines.push(c.comment);
-      clipboardLines.push("");
-      clipboardLines.push("---");
-      clipboardLines.push("");
-    }
-
-    // Copy to clipboard
-    try {
-      await navigator.clipboard.writeText(clipboardLines.join("\n"));
-    } catch {
-      // clipboard may not be available
-    }
-
     // Submit to server
     const formData = new FormData();
     formData.append("review", JSON.stringify(submission));

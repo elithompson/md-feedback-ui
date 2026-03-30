@@ -39,7 +39,6 @@ export function ReviewSidebar({
           <div className="review-sidebar__checkmark">&#10003;</div>
           <h2>Review submitted!</h2>
           <code className="review-sidebar__output-path">{outputPath}</code>
-          <p>Copied to clipboard</p>
           <p className="review-sidebar__secondary">You can close this tab</p>
         </div>
       </aside>

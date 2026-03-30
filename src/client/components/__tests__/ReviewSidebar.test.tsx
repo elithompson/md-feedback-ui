@@ -212,21 +212,6 @@ describe("ReviewSidebar", () => {
     expect(screen.queryByText("Submit Review")).not.toBeInTheDocument();
   });
 
-  it('confirmation shows "Copied to clipboard" message', () => {
-    render(
-      <ReviewSidebar
-        files={[]}
-        comments={new Map()}
-        onScrollToComment={vi.fn()}
-        onSubmit={vi.fn()}
-        submitted={true}
-        outputPath="/tmp/review.json"
-      />,
-    );
-
-    expect(screen.getByText("Copied to clipboard")).toBeInTheDocument();
-  });
-
   it("shows screenshot count when comment has screenshots", () => {
     const files = [makeFile()];
     const comments = new Map<string, Comment[]>([
