@@ -2,6 +2,8 @@
 
 Browser-based markdown review UI with inline commenting and screenshot support. Designed for reviewing plans, specs, and documentation — especially with [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
+![md-feedback-ui screenshot](feedback.png)
+
 ## Features
 
 - GitHub-flavored Markdown rendering with Mermaid diagram support
