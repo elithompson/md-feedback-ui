@@ -31,7 +31,7 @@
   },
   "files": [
     "dist/",
-    "skill/plan-review.md"
+    "skill/md-feedback-ui.md"
   ],
   "scripts": {
     "dev": "vite",

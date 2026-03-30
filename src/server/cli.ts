@@ -28,7 +28,7 @@ export function getPackageVersion(): string {
 }
 
 export function getSkillSourcePath(): string {
-  return path.resolve(__dirname, "../../skill/plan-review.md");
+  return path.resolve(__dirname, "../../skill/md-feedback-ui.md");
 }
 
 export function installSkill(cwd: string, global: boolean): void {
@@ -39,7 +39,7 @@ export function installSkill(cwd: string, global: boolean): void {
         "commands",
       )
     : path.join(cwd, ".claude", "commands");
-  const targetPath = path.join(targetDir, "plan-review.md");
+  const targetPath = path.join(targetDir, "md-feedback-ui.md");
 
   if (fs.existsSync(targetPath)) {
     console.log(`Skill already exists at ${targetPath}`);

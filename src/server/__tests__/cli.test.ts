@@ -74,7 +74,7 @@ describe("installSkill", () => {
 
     installSkill(dir, false);
 
-    const targetPath = path.join(dir, ".claude", "commands", "plan-review.md");
+    const targetPath = path.join(dir, ".claude", "commands", "md-feedback-ui.md");
     expect(fs.existsSync(targetPath)).toBe(true);
 
     const content = fs.readFileSync(targetPath, "utf-8");
@@ -86,7 +86,7 @@ describe("installSkill", () => {
     const targetDir = path.join(dir, ".claude", "commands");
     fs.mkdirSync(targetDir, { recursive: true });
     fs.writeFileSync(
-      path.join(targetDir, "plan-review.md"),
+      path.join(targetDir, "md-feedback-ui.md"),
       "existing content",
     );
 
@@ -94,7 +94,7 @@ describe("installSkill", () => {
 
     // Should not overwrite
     const content = fs.readFileSync(
-      path.join(targetDir, "plan-review.md"),
+      path.join(targetDir, "md-feedback-ui.md"),
       "utf-8",
     );
     expect(content).toBe("existing content");
@@ -114,7 +114,7 @@ describe("installSkill", () => {
         dir,
         ".claude",
         "commands",
-        "plan-review.md",
+        "md-feedback-ui.md",
       );
       expect(fs.existsSync(targetPath)).toBe(true);
     } finally {

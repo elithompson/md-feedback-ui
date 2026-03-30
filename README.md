@@ -34,7 +34,7 @@ npx md-feedback-ui --install-skill --global
 Then in Claude Code, use the skill:
 
 ```
-/plan-review path/to/plan.md
+/md-feedback-ui path/to/plan.md
 ```
 
 **Workflow:**

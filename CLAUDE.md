@@ -35,5 +35,5 @@ The first publish (0.1.0) was done manually. All future publishes go through Git
 
 - `src/client/` — React frontend (Vite)
 - `src/server/` — Express CLI + API server
-- `skill/plan-review.md` — Claude Code skill (shipped in npm tarball)
-- `.claude/commands/plan-review.md` — Local project skill (same content)
+- `skill/md-feedback-ui.md` — Claude Code skill (shipped in npm tarball)
+- `.claude/commands/md-feedback-ui.md` — Local project skill (same content)
