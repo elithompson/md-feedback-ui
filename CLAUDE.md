@@ -24,12 +24,14 @@ npm run test:watch   # watch mode
 
 Trusted publishing is configured via OIDC — no tokens needed.
 
-1. Bump version in `package.json`
-2. Commit and push to `main`
-3. Create a GitHub release (tag matching the version, e.g. `v0.2.0`)
-4. The `publish.yml` workflow runs automatically: check, build, publish to npm with provenance
+1. Bump the version in `package.json` (e.g. `0.2.0` -> `0.3.0`)
+2. Commit the version bump and push to `main`
+3. Wait for CI to pass on the push
+4. Create a GitHub release: tag should match the version with a `v` prefix (e.g. `v0.3.0`)
+5. The `publish.yml` workflow runs automatically: checks, builds, and publishes to npm with provenance
+6. Verify with `npm view md-feedback-ui version`
 
-The first publish (0.1.0) was done manually. All future publishes go through GitHub releases.
+The first publish (0.1.0) was done manually with a passkey. All future publishes go through GitHub releases.
 
 ## Project structure
 
